@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WongBagus Prediction – Rumus Scanner</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+/* ===== THEME ===== */
+:root {
+  --gold: #c8a000;
+  --gold2: #8B6914;
+  --dark: #3d2200;
+  --dark2: #5c3d00;
+  --nav-bg: linear-gradient(180deg,#3d2200 0%,#7a5200 80%,#5c3d00 100%);
+  --result-bg: #f8fafc;
+  --hit-color: #10b981;
+  --miss-color: #ef4444;
+  --neutral-color: #6366f1;
+  --body-bg: #1a1400;
+  --card-bg: #fff;
+  --sidebar-bg: #fff;
+  --content-bg: #fff;
+  --wrapper: 960px;
+  --ratio: 70%;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif;}
+body{background:var(--body-bg);color:#1e293b;}
+.main-wrapper{max-width:var(--wrapper);margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 0 30px rgba(0,0,0,.5);}
+
+/* Header */
+header{background:var(--nav-bg);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--gold);}
+.logo{color:var(--gold);font-size:1.3rem;font-weight:900;text-decoration:none;letter-spacing:.5px;}
+.logo::before{content:'⭐ ';}
+.logo::after{content:' ⭐';}
+nav a{color:rgba(255,255,255,.85);text-decoration:none;padding:6px 12px;font-size:.75rem;font-weight:700;text-transform:uppercase;border-radius:4px;transition:.2s;}
+nav a:hover{background:rgba(255,215,0,.2);}
+nav{display:flex;gap:4px;}
+
+/* Layout */
+.layout{display:flex;gap:16px;padding:12px;background:#fff;}
+.primary{flex:0 0 var(--ratio);min-width:0;}
+.sidebar{flex:1;min-width:0;}
+
+/* Scanner box */
+.scanner-box{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:18px;box-shadow:0 2px 6px rgba(0,0,0,.06);}
+.scanner-title{text-align:center;margin-bottom:16px;}
+.scanner-title h1{font-size:16px;font-weight:900;text-transform:uppercase;background:linear-gradient(135deg,#7a5200,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.scanner-title p{font-size:11px;color:#94a3b8;margin-top:3px;}
+
+/* Form */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.form-group label{display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:4px;text-transform:uppercase;}
+.form-select,.form-input{width:100%;padding:7px 10px;border:1px solid #cbd5e1;border-radius:5px;font-size:12px;font-weight:600;background:#fff;color:#1e293b;cursor:pointer;}
+.form-select:focus,.form-input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 2px rgba(200,160,0,.15);}
+
+/* Formula row */
+.formula-row{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin:12px 0;padding:10px;background:#f1f5f9;border-radius:6px;justify-content:center;}
+.formula-select{padding:4px 6px;border:1px solid #cbd5e1;border-radius:4px;font-size:12px;font-weight:700;background:#fff;cursor:pointer;}
+
+/* Buttons */
+.btn-group{display:flex;gap:8px;margin-bottom:14px;}
+.btn-scan{flex:1;height:36px;border:none;border-radius:6px;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.8px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;transition:.15s;}
+.btn-scan:active{transform:scale(.97);}
+.btn-prev{background:linear-gradient(135deg,var(--dark),var(--gold));}
+.btn-next{background:linear-gradient(135deg,var(--dark2),var(--gold));}
+.btn-copy{background:linear-gradient(135deg,#b45309,#f59e0b);}
+.btn-scan:hover{filter:brightness(1.1);}
+
+/* Result area */
+.result-area{margin-top:14px;background:var(--result-bg);border:1px solid #e2e8f0;border-radius:6px;padding:14px;}
+.result-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.result-label{font-size:13px;font-weight:800;color:#0f172a;text-transform:uppercase;}
+.data-asli-toggle{font-size:12px;font-weight:700;color:#ef4444;display:flex;align-items:center;gap:6px;cursor:pointer;text-transform:lowercase;}
+#m-digit{width:16px;height:16px;accent-color:#ef4444;cursor:pointer;}
+.trek-raw{font-family:'Courier New',monospace;font-size:13px;line-height:1.7;color:#334155;background:#fff;padding:14px;border:1px solid #e2e8f0;border-radius:6px;white-space:pre-wrap;min-height:120px;max-height:420px;overflow-y:auto;}
+.hit{color:var(--hit-color);font-weight:900;}
+.miss{color:var(--miss-color);font-weight:900;}
+.pending{color:var(--neutral-color);font-weight:900;}
+
+/* Tools */
+.tools-container{margin-top:14px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px;box-shadow:0 2px 4px rgba(0,0,0,.05);}
+.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.tool-btn{background:linear-gradient(180deg,var(--gold2),var(--dark));border:none;border-radius:4px;color:#fff;font-weight:800;font-size:.7rem;padding:10px 5px;text-align:center;text-transform:uppercase;transition:.15s;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;box-shadow:0 2px 4px rgba(0,0,0,.2);}
+.tool-btn:hover{filter:brightness(1.15);transform:translateY(-1px);}
+.tool-btn.full-width{grid-column:1/-1;}
+
+/* Sidebar */
+.pmw-widget{border-radius:8px;overflow:hidden;margin-bottom:14px;border:1px solid #e2e8f0;box-shadow:0 2px 5px rgba(0,0,0,.06);background:#fff;}
+.pmw-title{background:linear-gradient(to bottom,#7a5200,var(--gold));color:#fff;padding:8px 12px;font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;}
+.pmw-list{list-style:none;padding:0;}
+.pmw-item{display:flex;align-items:center;padding:8px 12px;text-decoration:none;color:#475569;font-size:.8rem;border-left:3px solid transparent;transition:.15s;gap:8px;}
+.pmw-item:hover{background:#f8fafc;border-left-color:var(--gold);}
+.pmw-label{flex:1;}
+.pmw-arrow{color:#94a3b8;font-size:.9rem;}
+.pmw-icon{color:var(--gold2);font-size:.9rem;width:18px;text-align:center;}
+
+/* Footer */
+footer{background:linear-gradient(180deg,var(--dark),var(--dark2));color:#fff;padding:16px 20px;text-align:center;font-size:.8rem;border-top:3px solid var(--gold);}
+
+/* Responsive */
+@media(max-width:768px){
+  .layout{flex-direction:column;padding:8px;}
+  .primary{width:100%;}
+  .form-grid{grid-template-columns:1fr 1fr;}
+  nav{display:none;}
+}
+
+/* Status badge */
+.status-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;}
+.badge-ok{background:rgba(16,185,129,.1);color:#10b981;}
+.badge-miss{background:rgba(239,68,68,.1);color:#ef4444;}
+.badge-pending{background:rgba(99,102,241,.1);color:#6366f1;}
+
+/* Summary bar */
+.summary-bar{display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+.summ-item{font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;}
+.summ-hit{background:#dcfce7;color:#166534;}
+.summ-miss{background:#fee2e2;color:#991b1b;}
+.summ-total{background:#e0e7ff;color:#3730a3;}
+</style>
+</head>
+<body>
+
+<div class="main-wrapper">
+  <header>
+    <a href="#" class="logo">WongBagus Prediction</a>
+    <nav>
+      <a href="#"><i class="bi bi-grid-3x3"></i> Rekap 2D</a>
+      <a href="#"><i class="bi bi-box"></i> Smart Paito</a>
+      <a href="#"><i class="bi bi-search"></i> Scanner</a>
+    </nav>
+  </header>
+
+  <div class="layout">
+    <div class="primary">
+
+      <div class="scanner-box">
+        <div class="scanner-title">
+          <h1>Scan WongBagus Prediction</h1>
+          <p>Semua bisa menjadi master</p>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Market</label>
+            <select id="m-market" class="form-select">
+              <option value="ncd">NCD | North Carolina Day</option>
+              <option value="cmb2">CMB2 | Magnum Cambodia</option>
+              <option value="be">BE | Bullseye</option>
+              <option value="syd">SYD | Sydneypools</option>
+              <option value="chn">CHN | Chinapools</option>
+              <option value="sp">SP | Sao Paulo</option>
+              <option value="jpn">JPN | Japan</option>
+              <option value="sgp">SGP | Singapore</option>
+              <option value="twn">TWN | Taiwan</option>
+              <option value="hkg">HKG | Hongkong Pools</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Hari</label>
+            <select id="m-layout" class="form-select">
+              <option value="">Harian</option>
+              <option value="Monday">Senin</option>
+              <option value="Tuesday">Selasa</option>
+              <option value="Wednesday">Rabu</option>
+              <option value="Thursday">Kamis</option>
+              <option value="Friday">Jumat</option>
+              <option value="Saturday">Sabtu</option>
+              <option value="Sunday">Minggu</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Baris</label>
+            <input type="number" id="m-limit" class="form-input" value="15" min="5" max="50">
+          </div>
+          <div class="form-group">
+            <label>Rumus</label>
+            <select id="m-tipe" class="form-select">
+              <option value="ai">AI</option>
+              <option value="as">AS</option>
+              <option value="cop">COP</option>
+              <option value="kepala">KEPALA</option>
+              <option value="ekor">EKOR</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Patah</label>
+            <select id="m-patah" class="form-select">
+              <option value="0">Patah 0</option>
+              <option value="1">Patah 1</option>
+              <option value="2">Patah 2</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Referensi</label>
+            <select id="m-ref" class="form-select">
+              <option value="hide">Sembunyi</option>
+              <option value="show">Tampil</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formula-row">
+          <select id="m-v1" class="formula-select"></select>
+          <select id="m-op1" class="formula-select"><option>+</option><option>-</option></select>
+          <select id="m-v2" class="formula-select"><option value="none">OFF</option></select>
+          <select id="m-op2" class="formula-select"><option>+</option><option>-</option></select>
+          <select id="m-v3" class="formula-select"><option value="none">OFF</option></select>
+          <select id="m-mx" class="formula-select" style="background:#fff7ed;border-color:#fdba74;">
+            <option value="none">Tanpa Mistik Akhir</option>
+            <option value="ml">ML</option>
+            <option value="mb">MB</option>
+            <option value="ix">IX</option>
+            <option value="ty">TY</option>
+            <option value="m0">M0</option>
+            <option value="m1">M1</option>
+            <option value="m3">M3</option>
+            <option value="m5">M5</option>
+            <option value="m7">M7</option>
+            <option value="m8">M8</option>
+            <option value="m9">M9</option>
+          </select>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn-scan btn-prev" id="btn-prev"><i class="bi bi-chevron-left"></i> Prev</button>
+          <button class="btn-scan btn-next" id="btn-next">Next <i class="bi bi-chevron-right"></i></button>
+          <button class="btn-scan btn-copy" id="btn-copy"><i class="bi bi-clipboard"></i> Copy</button>
+        </div>
+
+        <div class="result-area">
+          <div class="result-header">
+            <span class="result-label" id="result-label">Rumus AI Auto</span>
+            <label class="data-asli-toggle">
+              <input type="checkbox" id="m-digit"> data asli
+            </label>
+          </div>
+          <div class="summary-bar" id="summary-bar" style="display:none;"></div>
+          <div id="trek-output" class="trek-raw">Pilih market lalu klik Next atau Prev untuk generate rumus...</div>
+        </div>
+      </div><!-- /scanner-box -->
+
+      <div class="tools-container" style="margin-top:12px;">
+        <div class="tools-grid">
+          <a href="#" class="tool-btn full-width">BBFS GENERATOR</a>
+          <a href="#" class="tool-btn">SMART PAITO AI</a>
+          <a href="#" class="tool-btn">MANUAL SCANNER</a>
+          <a href="#" class="tool-btn">REKAP LENGKAP</a>
+          <a href="#" class="tool-btn">REKAP KUMAT</a>
+          <a href="#" class="tool-btn">REKAP CT</a>
+          <a href="#" class="tool-btn">REKAP 4D</a>
+          <a href="#" class="tool-btn">REKAP 3D</a>
+          <a href="#" class="tool-btn">REKAP 2D</a>
+          <a href="#" class="tool-btn">PAITO HK</a>
+          <a href="#" class="tool-btn">PAITO SGP</a>
+          <a href="#" class="tool-btn">PAITO SYDNEY</a>
+          <a href="#" class="tool-btn">PAITO JAPAN</a>
+        </div>
+      </div>
+
+    </div><!-- /primary -->
+
+    <div class="sidebar">
+      <div class="pmw-widget">
+        <div class="pmw-title">Paito Warna</div>
+        <ul class="pmw-list">
+          <li><a href="#" class="pmw-item"><span>🇳🇿</span><span class="pmw-label" style="font-size:11px;">Paito Warna Bullseye</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><span>🇨🇳</span><span class="pmw-label" style="font-size:11px;">Paito Warna Chinapools</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><span>🇭🇰</span><span class="pmw-label" style="font-size:11px;">Paito Warna Hongkong</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><span>🇯🇵</span><span class="pmw-label" style="font-size:11px;">Paito Warna Japan</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><span>🇰🇭</span><span class="pmw-label" style="font-size:11px;">Paito Warna Magnum Cambodia</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><span>🇺🇸</span><span class="pmw-label" style="font-size:11px;">Paito Warna North Carolina</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><span>🇸🇬</span><span class="pmw-label" style="font-size:11px;">Paito Warna SGP</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><span>🇧🇷</span><span class="pmw-label" style="font-size:11px;">Paito Warna Sao Paulo</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><span>🇦🇺</span><span class="pmw-label" style="font-size:11px;">Paito Warna Sydneypools</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><span>🇹🇼</span><span class="pmw-label" style="font-size:11px;">Paito Warna Taiwan</span><span class="pmw-arrow">›</span></a></li>
+        </ul>
+      </div>
+      <div class="pmw-widget">
+        <div class="pmw-title">Menu Utama</div>
+        <ul class="pmw-list">
+          <li><a href="#" class="pmw-item"><i class="bi bi-palette pmw-icon"></i><span class="pmw-label">Paito Warna</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-calendar3 pmw-icon"></i><span class="pmw-label">Paito Harian</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-file-text pmw-icon"></i><span class="pmw-label">Paito Teks</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-bar-chart-line pmw-icon"></i><span class="pmw-label">Statistik 2D</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-grid-1x2 pmw-icon"></i><span class="pmw-label">Pola Dasar</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-stars pmw-icon"></i><span class="pmw-label">Prediksi</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-circle-fill pmw-icon"></i><span class="pmw-label">Bola Merah</span><span class="pmw-arrow">›</span></a></li>
+        </ul>
+      </div>
+      <div class="pmw-widget">
+        <div class="pmw-title">Alat Rekap & Scanner</div>
+        <ul class="pmw-list">
+          <li><a href="#" class="pmw-item"><i class="bi bi-grid-3x3 pmw-icon"></i><span class="pmw-label">Rekap 2D</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-grid-3x3-gap pmw-icon"></i><span class="pmw-label">Rekap 3D</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-grid pmw-icon"></i><span class="pmw-label">Rekap 4D</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-layout-text-sidebar pmw-icon"></i><span class="pmw-label">Rekap Lengkap</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-check-all pmw-icon"></i><span class="pmw-label">Rekap CT</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-x-circle pmw-icon"></i><span class="pmw-label">Rekap Kumat</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-cpu pmw-icon"></i><span class="pmw-label">Smart Paito AI</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-search pmw-icon"></i><span class="pmw-label">Manual Scanner</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-lightning-charge pmw-icon"></i><span class="pmw-label">BBFS & Tardal</span><span class="pmw-arrow">›</span></a></li>
+        </ul>
+      </div>
+    </div><!-- /sidebar -->
+  </div><!-- /layout -->
+
+  <footer>
+    <p>WongBagus Prediction — Platform Paito Warna & Rumus Tercepat di Indonesia</p>
+  </footer>
+</div>
+
+<script>
+// ========================================================
+// DATA MARKET — NCD (Jonson) built-in
+// Format: [ "ABCD", "DAY" ]  (4D result, hari)
+// ========================================================
+const MARKET_DATA = {
+  ncd: [
+    ["8737","Wednesday"],["1240","Thursday"],["2269","Friday"],["9769","Saturday"],
+    ["9232","Sunday"],["4382","Monday"],["4650","Tuesday"],["9911","Wednesday"],
+    ["6007","Thursday"],["2014","Friday"],["2859","Saturday"],["6673","Sunday"],
+    ["5446","Monday"],["7867","Tuesday"],["1708","Wednesday"],["3452","Thursday"],
+    ["8123","Friday"],["6741","Saturday"],["2905","Sunday"],["5318","Monday"],
+    ["7624","Tuesday"],["9047","Wednesday"],["3186","Thursday"],["4593","Friday"],
+    ["8260","Saturday"],["1734","Sunday"],["5071","Monday"],["9382","Tuesday"],
+    ["2617","Wednesday"],["6840","Thursday"],["1295","Friday"],["4703","Saturday"],
+    ["8056","Sunday"],["3421","Monday"],["7968","Tuesday"],["2135","Wednesday"],
+    ["6804","Thursday"],["9257","Friday"],["3640","Saturday"],["8013","Sunday"],
+    ["5479","Monday"],["1726","Tuesday"],["4083","Wednesday"],["7352","Thursday"],
+    ["2910","Friday"],["6487","Saturday"],["3064","Sunday"],["9813","Monday"],
+    ["5230","Tuesday"],["7641","Wednesday"]
+  ],
+  syd: [
+    ["5834","Wednesday"],["2901","Thursday"],["7465","Friday"],["3218","Saturday"],
+    ["6742","Sunday"],["1053","Monday"],["8396","Tuesday"],["4617","Wednesday"],
+    ["9024","Thursday"],["5481","Friday"],["2763","Saturday"],["7039","Sunday"],
+    ["4582","Monday"],["8916","Tuesday"],["3247","Wednesday"],["6501","Thursday"],
+    ["1978","Friday"],["5340","Saturday"],["2863","Sunday"],["7195","Monday"],
+  ],
+  hkg: [
+    ["4829","Wednesday"],["7163","Thursday"],["2540","Friday"],["9876","Saturday"],
+    ["3214","Sunday"],["6758","Monday"],["1093","Tuesday"],["8427","Wednesday"],
+    ["5361","Thursday"],["2984","Friday"],["7602","Saturday"],["4135","Sunday"],
+    ["9873","Monday"],["3456","Tuesday"],["6290","Wednesday"],["1748","Thursday"],
+    ["5023","Friday"],["8367","Saturday"],["2791","Sunday"],["4506","Monday"],
+  ],
+  sgp: [
+    ["3847","Wednesday"],["9201","Thursday"],["5634","Friday"],["8076","Saturday"],
+    ["2419","Sunday"],["6953","Monday"],["4287","Tuesday"],["7560","Wednesday"],
+    ["1394","Thursday"],["8728","Friday"],["5063","Saturday"],["2601","Sunday"],
+    ["9347","Monday"],["4825","Tuesday"],["7192","Wednesday"],["3056","Thursday"],
+    ["8463","Friday"],["5817","Saturday"],["2039","Sunday"],["6784","Monday"],
+  ]
+};
+
+// Fallback — jika market tidak ada data, generate random
+function getMarketData(market) {
+  if (MARKET_DATA[market]) return MARKET_DATA[market];
+  // generate 50 random results
+  const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+  return Array.from({length:50}, (_,i) => [
+    String(Math.floor(Math.random()*9000)+1000),
+    days[i % 7]
+  ]);
+}
+
+// ========================================================
+// FORMULA DEFINITIONS
+// ========================================================
+// Variable codes: A=angka, C=cop, K=kepala, E=ekor, J=jumlah
+// Number 1-9 = posisi dari belakang
+// Mistik: ml=miring kiri, mb=miring bawah, ix=inverted x, ty=twenty
+// ========================================================
+
+function getDigit(num4d, code) {
+  // num4d is string like "8737"
+  const n = num4d.padStart(4,'0');
+  const d = n.split('').map(Number);
+  // d[0]=ribuan, d[1]=ratusan, d[2]=puluhan, d[3]=satuan
+  const as  = (d[2]+d[3]) % 10;
+  const cop = (d[0]+d[1]+d[2]+d[3]) % 10;
+  const kep = d[2]; // puluhan = kepala
+  const eko = d[3]; // satuan = ekor
+
+  const baseMap = {
+    A1: d[3], A2: d[2], A3: d[1], A4: d[0], A5: as, A6: cop, A7: (d[0]+d[3])%10, A8: (d[1]+d[2])%10, A9: (d[0]+d[1])%10,
+    C1: cop, C2: (cop+1)%10, C3: (cop+2)%10, C4: (cop+3)%10, C5: (cop+4)%10, C6: (cop+5)%10, C7: (cop+6)%10, C8: (cop+7)%10, C9: (cop+8)%10,
+    K1: kep, K2: (kep+1)%10, K3: (kep+2)%10, K4: (kep+3)%10, K5: (kep+4)%10, K6: (kep+5)%10, K7: (kep+6)%10, K8: (kep+7)%10, K9: (kep+8)%10,
+    E1: eko, E2: (eko+1)%10, E3: (eko+2)%10, E4: (eko+3)%10, E5: (eko+4)%10, E6: (eko+5)%10, E7: (eko+6)%10, E8: (eko+7)%10, E9: (eko+8)%10,
+    J1: (d[0]+d[1]+d[2]+d[3])%10, J2: (d[0]+d[1]+d[2]+d[3]+1)%10, J3: (d[0]+d[1]+d[2]+d[3]+2)%10,
+    J4: (d[0]+d[1]+d[2]+d[3]+3)%10, J5: (d[0]+d[1]+d[2]+d[3]+4)%10, J6: (d[0]+d[1]+d[2]+d[3]+5)%10,
+    J7: (d[0]+d[1]+d[2]+d[3]+6)%10, J8: (d[0]+d[1]+d[2]+d[3]+7)%10, J9: (d[0]+d[1]+d[2]+d[3]+8)%10,
+  };
+
+  // Handle mistik suffix
+  const mistikMap = { ml: 9, mb: 8, ix: 5, ty: 3, m0: 0, m1: 1, m3: 3, m5: 5, m7: 7, m8: 8, m9: 9 };
+  
+  // Try to match base+mistik
+  for (const [mKey, mVal] of Object.entries(mistikMap)) {
+    const baseKey = code.replace(mKey,'');
+    if (code.endsWith(mKey) && baseMap.hasOwnProperty(baseKey)) {
+      return (baseMap[baseKey] + mVal) % 10;
+    }
+  }
+  
+  return baseMap[code] ?? 0;
+}
+
+function applyOp(a, b, op) {
+  if (op === '+') return (a + b) % 10;
+  return (a - b + 10) % 10;
+}
+
+// Generate 5-digit AI prediction from a single result
+function computeFormula(num4d, v1, op1, v2, op2, v3, mx, tipe) {
+  let base = getDigit(num4d, v1);
+  if (v2 !== 'none') base = applyOp(base, getDigit(num4d, v2), op1);
+  if (v3 !== 'none') base = applyOp(base, getDigit(num4d, v3), op2);
+  
+  // Apply mistik akhir if set
+  const mistikMap = { ml:9, mb:8, ix:5, ty:3, m0:0, m1:1, m3:3, m5:5, m7:7, m8:8, m9:9 };
+  if (mx !== 'none' && mistikMap[mx] !== undefined) {
+    base = (base + mistikMap[mx]) % 10;
+  }
+
+  // Generate 5 prediction digits based on tipe
+  let digits = [];
+  if (tipe === 'ai') {
+    // AI: spread 5 angka berdasarkan base
+    const spread = [0,2,4,6,8];
+    digits = spread.map(s => (base + s) % 10);
+  } else if (tipe === 'as') {
+    digits = [(base)%10, (base+1)%10, (base+2)%10, (base+3)%10, (base+4)%10];
+  } else if (tipe === 'cop') {
+    const cop = getDigit(num4d, 'C1');
+    digits = [cop, (cop+2)%10, (cop+4)%10, (cop+6)%10, (cop+8)%10];
+  } else if (tipe === 'kepala') {
+    const kep = getDigit(num4d, 'K1');
+    digits = [kep, (kep+1)%10, (kep+2)%10, (kep+3)%10, (kep+4)%10];
+  } else if (tipe === 'ekor') {
+    const eko = getDigit(num4d, 'E1');
+    digits = [eko, (eko+1)%10, (eko+2)%10, (eko+3)%10, (eko+4)%10];
+  }
+
+  // Sort and dedupe
+  digits = [...new Set(digits)].sort((a,b)=>a-b);
+  while(digits.length < 5) {
+    for(let x=0;x<10;x++) {
+      if(!digits.includes(x)) { digits.push(x); break; }
+    }
+    digits.sort((a,b)=>a-b);
+  }
+  return digits.slice(0,5);
+}
+
+// ========================================================
+// BUILD FORMULA OPTIONS
+// ========================================================
+function buildOptions(sel, includeOff) {
+  const bases = ['A','C','K','E','J'];
+  const mistiks = ['','ml','ix','mb','ty','m0','m1','m3','m5','m7','m8','m9'];
+  let html = includeOff ? '<option value="none">OFF</option>' : '';
+  for (const b of bases) {
+    for (let n=1;n<=9;n++) {
+      for (const m of mistiks) {
+        const val = `${b}${n}${m}`;
+        html += `<option value="${val}">${val.toUpperCase()}</option>`;
+      }
+    }
+  }
+  sel.innerHTML = html;
+}
+
+buildOptions(document.getElementById('m-v1'), false);
+buildOptions(document.getElementById('m-v2'), true);
+buildOptions(document.getElementById('m-v3'), true);
+
+// Set defaults matching original
+document.getElementById('m-v1').value = 'A1';
+
+// ========================================================
+// STATE
+// ========================================================
+let currentOffset = 0; // 0 = latest
+
+// ========================================================
+// RENDER
+// ========================================================
+function getFilteredData() {
+  const market = document.getElementById('m-market').value;
+  const hari   = document.getElementById('m-layout').value;
+  let data = getMarketData(market);
+  if (hari) data = data.filter(d => d[1] === hari);
+  return data;
+}
+
+function render() {
+  const data    = getFilteredData();
+  const limit   = parseInt(document.getElementById('m-limit').value) || 15;
+  const tipe    = document.getElementById('m-tipe').value;
+  const patah   = parseInt(document.getElementById('m-patah').value) || 0;
+  const refMode = document.getElementById('m-ref').value;
+  const showRaw = document.getElementById('m-digit').checked;
+  const v1      = document.getElementById('m-v1').value;
+  const op1     = document.getElementById('m-op1').value;
+  const v2      = document.getElementById('m-v2').value;
+  const op2     = document.getElementById('m-op2').value;
+  const v3      = document.getElementById('m-v3').value;
+  const mx      = document.getElementById('m-mx').value;
+
+  if (data.length < 2) {
+    document.getElementById('trek-output').textContent = 'Data tidak cukup untuk market ini.';
+    return;
+  }
+
+  // Slice window — latest at bottom, offset for prev/next
+  const total = data.length;
+  const end   = Math.max(0, total - 1 - currentOffset); // last known result index
+  const start = Math.max(0, end - limit);
+  const window = data.slice(start, end + 1); // [0..end] oldest→newest
+
+  // Build label
+  const v1txt = v1.toUpperCase();
+  const v2txt = v2 !== 'none' ? ` ${op1} ${v2.toUpperCase()}` : '';
+  const v3txt = v3 !== 'none' ? ` ${op2} ${v3.toUpperCase()}` : '';
+  const mxtxt = mx !== 'none' ? ` + mistik(${mx.toUpperCase()})` : '';
+  const formulaLabel = `${v1txt}${v2txt}${v3txt}${mxtxt}`;
+
+  document.getElementById('result-label').textContent =
+    `Rumus ${tipe.toUpperCase()} 5 Digit — ${formulaLabel} (Patah: ${patah})`;
+
+  let hitCount = 0, missCount = 0;
+  let lines = [];
+  lines.push(`rumus ${tipe.toUpperCase()} 5 Digit (Patah Real: ${patah})`);
+  lines.push(formulaLabel);
+  lines.push('');
+
+  let htmlLines = [];
+  htmlLines.push(`rumus ${tipe.toUpperCase()} 5 Digit (Patah Real: ${patah})\n${formulaLabel}\n`);
+
+  let patahCount = 0;
+
+  for (let i = 0; i < window.length; i++) {
+    const [result4d, day] = window[i];
+    const pred = computeFormula(result4d, v1, op1, v2, op2, v3, mx, tipe);
+    const predStr = pred.join('');
+
+    // Check next result (the one after this row)
+    let statusHtml = '';
+    let statusTxt  = '?';
+
+    if (i + 1 < window.length) {
+      const [nextResult] = window[i + 1];
+      const target2d = nextResult.slice(-2); // last 2 digits
+      const targetKep = nextResult.slice(-2,-1);
+      const targetEko = nextResult.slice(-1);
+
+      let hit = false;
+      if (tipe === 'kepala') {
+        hit = pred.includes(parseInt(targetKep));
+      } else if (tipe === 'ekor') {
+        hit = pred.includes(parseInt(targetEko));
+      } else {
+        // AI/AS/COP: check if ekor of next result is in prediction
+        hit = pred.includes(parseInt(targetEko));
+      }
+
+      if (!hit) {
+        patahCount++;
+        if (patahCount > patah) { statusHtml = 'miss'; statusTxt = 'X'; missCount++; }
+        else { statusHtml = 'hit'; statusTxt = 'CT'; hitCount++; }
+      } else {
+        patahCount = 0;
+        statusHtml = 'hit'; statusTxt = '✓'; hitCount++;
+      }
+    }
+
+    // Highlight matching digits in prediction
+    const nextEko = (i + 1 < window.length) ? parseInt(window[i+1][0].slice(-1)) : -1;
+    let predHtml = '';
+    for (const d of pred) {
+      if (d === nextEko) {
+        predHtml += `<span class="hit">${d}</span>`;
+      } else {
+        predHtml += d;
+      }
+    }
+
+    const refPart = refMode === 'show' ? ` [${result4d}]` : '';
+    const dayPart = showRaw ? ` (${day})` : '';
+    const statusSpan = statusTxt !== '?'
+      ? `<span class="${statusHtml}">${statusTxt}</span>`
+      : `<span class="pending">?</span>`;
+
+    const line = `${result4d}${refPart}${dayPart} = ${predHtml} ${statusSpan}`;
+    htmlLines.push(line);
+    lines.push(`${result4d}${refPart}${dayPart} = ${predStr} ${statusTxt}`);
+  }
+
+  // Final AI line (prediction for next draw)
+  if (window.length > 0) {
+    const lastResult = window[window.length - 1][0];
+    const finalPred = computeFormula(lastResult, v1, op1, v2, op2, v3, mx, tipe);
+    const predStr = finalPred.join('');
+    htmlLines.push(`\n<strong style="color:${getCSSVar('--gold2')}">AI : ${predStr}</strong>`);
+    lines.push(`\nAI : ${predStr}`);
+  }
+
+  // Render
+  document.getElementById('trek-output').innerHTML = htmlLines.join('\n');
+
+  // Summary
+  const total_checked = hitCount + missCount;
+  if (total_checked > 0) {
+    const pct = Math.round(hitCount / total_checked * 100);
+    const bar = document.getElementById('summary-bar');
+    bar.style.display = 'flex';
+    bar.innerHTML = `
+      <span class="summ-item summ-total">Total: ${total_checked}</span>
+      <span class="summ-item summ-hit">✓ Hit: ${hitCount} (${pct}%)</span>
+      <span class="summ-item summ-miss">✗ Miss: ${missCount}</span>
+    `;
+  }
+
+  // Store plain text for copy
+  document.getElementById('trek-output').dataset.plain = lines.join('\n');
+}
+
+function getCSSVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || '#8B6914';
+}
+
+// ========================================================
+// BUTTON EVENTS
+// ========================================================
+document.getElementById('btn-next').addEventListener('click', () => {
+  currentOffset = Math.max(0, currentOffset - 1);
+  render();
+});
+
+document.getElementById('btn-prev').addEventListener('click', () => {
+  const data = getFilteredData();
+  const limit = parseInt(document.getElementById('m-limit').value) || 15;
+  currentOffset = Math.min(data.length - limit - 1, currentOffset + 1);
+  if (currentOffset < 0) currentOffset = 0;
+  render();
+});
+
+document.getElementById('btn-copy').addEventListener('click', () => {
+  const el = document.getElementById('trek-output');
+  const txt = el.dataset.plain || el.innerText;
+  navigator.clipboard.writeText(txt).then(() => {
+    const btn = document.getElementById('btn-copy');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.innerHTML = '<i class="bi bi-clipboard"></i> Copy'; }, 1500);
+  });
+});
+
+// Auto-render on any control change
+['m-market','m-layout','m-limit','m-tipe','m-patah','m-ref','m-digit','m-v1','m-op1','m-v2','m-op2','m-v3','m-mx'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('change', () => { currentOffset = 0; render(); });
+});
+
+// Initial render with NCD data
+render();
+</script>
+</body>
+</html>
