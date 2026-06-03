@@ -1,0 +1,250 @@
+{
+  "meta": {
+    "updated_at": "2026-06-03 22:32:15",
+    "updated_date": "2026-06-03",
+    "source": "angkanet18.com",
+    "by": "WongBagus Prediction"
+  },
+  "pasaran": {
+    "ncd": {
+      "info": {
+        "id": "ncd",
+        "nama": "North Carolina Day",
+        "kode": "NCD",
+        "negara": "🇺🇸"
+      },
+      "jadwal": "13:30",
+      "hasil": [],
+      "rekap": {
+        "2d": {},
+        "3d": {},
+        "4d": {}
+      },
+      "last_result": {}
+    },
+    "ncn": {
+      "info": {
+        "id": "ncn",
+        "nama": "North Carolina Night",
+        "kode": "NCN",
+        "negara": "🇺🇸"
+      },
+      "jadwal": "23:00",
+      "hasil": [],
+      "rekap": {
+        "2d": {},
+        "3d": {},
+        "4d": {}
+      },
+      "last_result": {}
+    },
+    "sgp": {
+      "info": {
+        "id": "sgp",
+        "nama": "Singapore",
+        "kode": "SGP",
+        "negara": "🇸🇬"
+      },
+      "jadwal": "17:45",
+      "hasil": [],
+      "rekap": {
+        "2d": {},
+        "3d": {},
+        "4d": {}
+      },
+      "last_result": {}
+    },
+    "hkg": {
+      "info": {
+        "id": "hkg",
+        "nama": "Hongkong Pools",
+        "kode": "HKG",
+        "negara": "🇭🇰"
+      },
+      "jadwal": "23:00",
+      "hasil": [],
+      "rekap": {
+        "2d": {},
+        "3d": {},
+        "4d": {}
+      },
+      "last_result": {}
+    },
+    "syd": {
+      "info": {
+        "id": "syd",
+        "nama": "Sydneypools",
+        "kode": "SYD",
+        "negara": "🇦🇺"
+      },
+      "jadwal": "13:55",
+      "hasil": [],
+      "rekap": {
+        "2d": {},
+        "3d": {},
+        "4d": {}
+      },
+      "last_result": {}
+    },
+    "jpn": {
+      "info": {
+        "id": "jpn",
+        "nama": "Japan",
+        "kode": "JPN",
+        "negara": "🇯🇵"
+      },
+      "jadwal": "13:00",
+      "hasil": [],
+      "rekap": {
+        "2d": {},
+        "3d": {},
+        "4d": {}
+      },
+      "last_result": {}
+    },
+    "twn": {
+      "info": {
+        "id": "twn",
+        "nama": "Taiwan",
+        "kode": "TWN",
+        "negara": "🇹🇼"
+      },
+      "jadwal": "21:00",
+      "hasil": [],
+      "rekap": {
+        "2d": {},
+        "3d": {},
+        "4d": {}
+      },
+      "last_result": {}
+    },
+    "chn": {
+      "info": {
+        "id": "chn",
+        "nama": "Chinapools",
+        "kode": "CHN",
+        "negara": "🇨🇳"
+      },
+      "jadwal": "21:30",
+      "hasil": [],
+      "rekap": {
+        "2d": {},
+        "3d": {},
+        "4d": {}
+      },
+      "last_result": {}
+    },
+    "cmb2": {
+      "info": {
+        "id": "cmb2",
+        "nama": "Magnum Cambodia",
+        "kode": "CMB2",
+        "negara": "🇰🇭"
+      },
+      "jadwal": "18:30",
+      "hasil": [],
+      "rekap": {
+        "2d": {},
+        "3d": {},
+        "4d": {}
+      },
+      "last_result": {}
+    },
+    "be": {
+      "info": {
+        "id": "be",
+        "nama": "Bullseye",
+        "kode": "BE",
+        "negara": "🇳🇿"
+      },
+      "jadwal": "16:00",
+      "hasil": [],
+      "rekap": {
+        "2d": {},
+        "3d": {},
+        "4d": {}
+      },
+      "last_result": {}
+    },
+    "sp": {
+      "info": {
+        "id": "sp",
+        "nama": "Sao Paulo",
+        "kode": "SP",
+        "negara": "🇧🇷"
+      },
+      "jadwal": "03:00",
+      "hasil": [],
+      "rekap": {
+        "2d": {},
+        "3d": {},
+        "4d": {}
+      },
+      "last_result": {}
+    },
+    "wim": {
+      "info": {
+        "id": "wim",
+        "nama": "Wisconsin Midday",
+        "kode": "WIM",
+        "negara": "🇺🇸"
+      },
+      "jadwal": "13:30",
+      "hasil": [],
+      "rekap": {
+        "2d": {},
+        "3d": {},
+        "4d": {}
+      },
+      "last_result": {}
+    },
+    "macau": {
+      "info": {
+        "id": "macau",
+        "nama": "Macau",
+        "kode": "MAC",
+        "negara": "🇲🇴"
+      },
+      "jadwal": "21:05",
+      "hasil": [],
+      "rekap": {
+        "2d": {},
+        "3d": {},
+        "4d": {}
+      },
+      "last_result": {}
+    },
+    "bkk": {
+      "info": {
+        "id": "bkk",
+        "nama": "Bangkok",
+        "kode": "BKK",
+        "negara": "🇹🇭"
+      },
+      "jadwal": "21:00",
+      "hasil": [],
+      "rekap": {
+        "2d": {},
+        "3d": {},
+        "4d": {}
+      },
+      "last_result": {}
+    },
+    "kl": {
+      "info": {
+        "id": "kl",
+        "nama": "Kuala Lumpur",
+        "kode": "KL",
+        "negara": "🇲🇾"
+      },
+      "jadwal": "19:00",
+      "hasil": [],
+      "rekap": {
+        "2d": {},
+        "3d": {},
+        "4d": {}
+      },
+      "last_result": {}
+    }
+  }
+}
