@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WongBagus Prediction – Rumus Scanner</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+:root {
+  --gold:#c8a000;--gold2:#8B6914;--dark:#3d2200;--dark2:#5c3d00;
+  --hit:#10b981;--miss:#ef4444;--pending:#6366f1;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif;}
+body{background:#1a1400;color:#1e293b;}
+.main-wrapper{max-width:960px;margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 0 30px rgba(0,0,0,.5);}
+
+/* Header */
+header{background:linear-gradient(180deg,#3d2200 0%,#7a5200 80%,#5c3d00 100%);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--gold);}
+.logo{color:var(--gold);font-size:1.3rem;font-weight:900;text-decoration:none;}
+.logo::before{content:'⭐ ';}
+.logo::after{content:' ⭐';}
+nav a{color:rgba(255,255,255,.85);text-decoration:none;padding:6px 12px;font-size:.75rem;font-weight:700;text-transform:uppercase;border-radius:4px;}
+
+/* Layout */
+.layout{display:flex;gap:16px;padding:12px;background:#fff;}
+.primary{flex:0 0 70%;min-width:0;}
+.sidebar{flex:1;min-width:0;}
+
+/* Market cards */
+.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.hc{background:#fff;border-radius:10px;overflow:hidden;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.hc-head{background:linear-gradient(135deg,#7a5200,var(--gold));padding:8px 10px;display:flex;align-items:center;gap:7px;}
+.hc-head h3{color:#fff;font-size:12px;font-weight:800;margin:0;flex:1;line-height:1.2;}
+.hc-live{font-size:9px;font-weight:700;padding:2px 6px;border-radius:30px;background:rgba(255,255,255,.2);color:#fff;white-space:nowrap;}
+.hc-live.today{background:#22c55e;animation:pulse 1.8s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.5);}50%{box-shadow:0 0 0 5px rgba(34,197,94,0);}}
+.hc-body{padding:10px 10px 4px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.hc-date{font-size:10px;color:#64748b;white-space:nowrap;}
+.hc-digits{display:flex;gap:4px;}
+.hc-d{width:26px;height:26px;border-radius:6px;background:#0155a2;color:#fff;font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.1);}
+.hc-d.nodata{background:#e2e8f0;color:#94a3b8;font-size:11px;width:auto;padding:0 6px;border-radius:4px;}
+.hc-foot{padding:6px 8px 8px;display:flex;gap:5px;}
+.hc-btn{flex:1;display:block;padding:5px 0;font-weight:700;font-size:10px;border-radius:5px;text-align:center;cursor:pointer;border:none;color:#fff;}
+.hc-btn-w{background:#9a9a9a;}
+.hc-btn-h{background:#909090;}
+
+/* Scanner */
+.scanner-box{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:18px;box-shadow:0 2px 6px rgba(0,0,0,.06);}
+.scanner-title{text-align:center;margin-bottom:16px;}
+.scanner-title h1{font-size:16px;font-weight:900;text-transform:uppercase;background:linear-gradient(135deg,#7a5200,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.scanner-title p{font-size:11px;color:#94a3b8;margin-top:3px;}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.form-group label{display:block;font-size:11px;font-weight:700;color:#475569;margin-bottom:4px;text-transform:uppercase;}
+.form-select,.form-input{width:100%;padding:7px 10px;border:1px solid #cbd5e1;border-radius:5px;font-size:12px;font-weight:600;background:#fff;color:#1e293b;cursor:pointer;}
+.form-select:focus,.form-input:focus{outline:none;border-color:var(--gold);}
+
+.formula-row{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin:12px 0;padding:10px;background:#f1f5f9;border-radius:6px;justify-content:center;}
+.formula-select{padding:4px 6px;border:1px solid #cbd5e1;border-radius:4px;font-size:12px;font-weight:700;background:#fff;cursor:pointer;}
+
+.btn-group{display:flex;gap:8px;margin-bottom:14px;}
+.btn-scan{flex:1;height:36px;border:none;border-radius:6px;font-weight:800;font-size:12px;text-transform:uppercase;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;gap:5px;transition:.15s;}
+.btn-scan:active{transform:scale(.97);}
+.btn-prev{background:linear-gradient(135deg,var(--dark),var(--gold));}
+.btn-next{background:linear-gradient(135deg,var(--dark2),var(--gold));}
+.btn-copy{background:linear-gradient(135deg,#b45309,#f59e0b);}
+
+.result-area{margin-top:14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:14px;}
+.result-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.result-label{font-size:13px;font-weight:800;color:#0f172a;text-transform:uppercase;}
+.data-asli-toggle{font-size:12px;font-weight:700;color:#ef4444;display:flex;align-items:center;gap:6px;cursor:pointer;}
+#m-digit{width:16px;height:16px;accent-color:#ef4444;cursor:pointer;}
+.trek-raw{font-family:'Courier New',monospace;font-size:13px;line-height:1.7;color:#334155;background:#fff;padding:14px;border:1px solid #e2e8f0;border-radius:6px;white-space:pre-wrap;min-height:120px;max-height:450px;overflow-y:auto;}
+
+.summary-bar{display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+.summ-item{font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;}
+.summ-hit{background:#dcfce7;color:#166534;}
+.summ-miss{background:#fee2e2;color:#991b1b;}
+.summ-total{background:#e0e7ff;color:#3730a3;}
+
+/* Tools */
+.tools-container{margin-top:14px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px;}
+.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.tool-btn{background:linear-gradient(180deg,var(--gold2),var(--dark));border:none;border-radius:4px;color:#fff;font-weight:800;font-size:.7rem;padding:10px 5px;text-align:center;text-transform:uppercase;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;}
+.tool-btn.full-width{grid-column:1/-1;}
+
+/* Sidebar */
+.pmw-widget{border-radius:8px;overflow:hidden;margin-bottom:14px;border:1px solid #e2e8f0;background:#fff;}
+.pmw-title{background:linear-gradient(to bottom,#7a5200,var(--gold));color:#fff;padding:8px 12px;font-weight:700;font-size:.8rem;text-transform:uppercase;}
+.pmw-list{list-style:none;padding:0;}
+.pmw-item{display:flex;align-items:center;padding:8px 12px;text-decoration:none;color:#475569;font-size:.8rem;border-left:3px solid transparent;transition:.15s;gap:8px;}
+.pmw-item:hover{background:#f8fafc;border-left-color:var(--gold);}
+.pmw-label{flex:1;}
+.pmw-arrow{color:#94a3b8;}
+.pmw-icon{color:var(--gold2);width:18px;text-align:center;}
+
+/* Loading */
+.loading{text-align:center;padding:30px;color:#94a3b8;}
+.spinner{display:inline-block;width:24px;height:24px;border:3px solid #e2e8f0;border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:8px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* Updated badge */
+.updated-badge{font-size:11px;color:#94a3b8;text-align:center;padding:6px;border-bottom:1px solid #f1f5f9;}
+
+footer{background:linear-gradient(180deg,var(--dark),var(--dark2));color:#fff;padding:16px 20px;text-align:center;font-size:.8rem;border-top:3px solid var(--gold);}
+
+@media(max-width:768px){
+  .layout{flex-direction:column;padding:8px;}
+  .primary{width:100%;}
+  nav{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="main-wrapper">
+  <header>
+    <a href="#" class="logo">WongBagus Prediction</a>
+    <nav>
+      <a href="#"><i class="bi bi-grid-3x3"></i> Rekap 2D</a>
+      <a href="#"><i class="bi bi-search"></i> Scanner</a>
+    </nav>
+  </header>
+
+  <div class="updated-badge" id="updated-badge">⏳ Memuat data...</div>
+
+  <div class="layout">
+    <div class="primary">
+
+      <!-- Market Cards -->
+      <div id="home-grid" class="home-grid">
+        <div class="loading"><div class="spinner"></div><br>Memuat result...</div>
+      </div>
+
+      <!-- Scanner -->
+      <div class="scanner-box">
+        <div class="scanner-title">
+          <h1>Scan WongBagus Prediction</h1>
+          <p>Data otomatis dari rumusangkanet.com</p>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Market</label>
+            <select id="m-market" class="form-select"></select>
+          </div>
+          <div class="form-group">
+            <label>Hari</label>
+            <select id="m-layout" class="form-select">
+              <option value="">Harian</option>
+              <option value="0">Minggu</option>
+              <option value="1">Senin</option>
+              <option value="2">Selasa</option>
+              <option value="3">Rabu</option>
+              <option value="4">Kamis</option>
+              <option value="5">Jumat</option>
+              <option value="6">Sabtu</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Baris</label>
+            <input type="number" id="m-limit" class="form-input" value="15" min="5" max="60">
+          </div>
+          <div class="form-group">
+            <label>Rumus</label>
+            <select id="m-tipe" class="form-select">
+              <option value="ai">AI</option>
+              <option value="as">AS</option>
+              <option value="cop">COP</option>
+              <option value="kepala">KEPALA</option>
+              <option value="ekor">EKOR</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Patah</label>
+            <select id="m-patah" class="form-select">
+              <option value="0">Patah 0</option>
+              <option value="1">Patah 1</option>
+              <option value="2">Patah 2</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Referensi</label>
+            <select id="m-ref" class="form-select">
+              <option value="hide">Sembunyi</option>
+              <option value="show">Tampil</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="formula-row">
+          <select id="m-v1" class="formula-select"></select>
+          <select id="m-op1" class="formula-select"><option>+</option><option>-</option></select>
+          <select id="m-v2" class="formula-select"><option value="none">OFF</option></select>
+          <select id="m-op2" class="formula-select"><option>+</option><option>-</option></select>
+          <select id="m-v3" class="formula-select"><option value="none">OFF</option></select>
+          <select id="m-mx" class="formula-select" style="background:#fff7ed;border-color:#fdba74;">
+            <option value="none">Tanpa Mistik</option>
+            <option value="ml">ML</option><option value="mb">MB</option>
+            <option value="ix">IX</option><option value="ty">TY</option>
+            <option value="m0">M0</option><option value="m1">M1</option>
+            <option value="m3">M3</option><option value="m5">M5</option>
+            <option value="m7">M7</option><option value="m8">M8</option>
+            <option value="m9">M9</option>
+          </select>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn-scan btn-prev" id="btn-prev"><i class="bi bi-chevron-left"></i> Prev</button>
+          <button class="btn-scan btn-next" id="btn-next">Next <i class="bi bi-chevron-right"></i></button>
+          <button class="btn-scan btn-copy" id="btn-copy"><i class="bi bi-clipboard"></i> Copy</button>
+        </div>
+
+        <div class="result-area">
+          <div class="result-header">
+            <span class="result-label" id="result-label">Rumus AI Auto</span>
+            <label class="data-asli-toggle">
+              <input type="checkbox" id="m-digit"> data asli
+            </label>
+          </div>
+          <div class="summary-bar" id="summary-bar" style="display:none;"></div>
+          <div id="trek-output" class="trek-raw">Pilih market lalu klik Next atau Prev...</div>
+        </div>
+      </div>
+
+      <div class="tools-container" style="margin-top:12px;">
+        <div class="tools-grid">
+          <a href="#" class="tool-btn full-width">BBFS GENERATOR</a>
+          <a href="#" class="tool-btn">SMART PAITO AI</a>
+          <a href="#" class="tool-btn">MANUAL SCANNER</a>
+          <a href="#" class="tool-btn">REKAP LENGKAP</a>
+          <a href="#" class="tool-btn">REKAP KUMAT</a>
+          <a href="#" class="tool-btn">REKAP CT</a>
+          <a href="#" class="tool-btn">REKAP 4D</a>
+          <a href="#" class="tool-btn">REKAP 3D</a>
+          <a href="#" class="tool-btn">REKAP 2D</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="pmw-widget">
+        <div class="pmw-title">Paito Warna</div>
+        <ul class="pmw-list" id="sidebar-paito"></ul>
+      </div>
+      <div class="pmw-widget">
+        <div class="pmw-title">Menu Utama</div>
+        <ul class="pmw-list">
+          <li><a href="#" class="pmw-item"><i class="bi bi-palette pmw-icon"></i><span class="pmw-label">Paito Warna</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-calendar3 pmw-icon"></i><span class="pmw-label">Paito Harian</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-bar-chart-line pmw-icon"></i><span class="pmw-label">Statistik 2D</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-stars pmw-icon"></i><span class="pmw-label">Prediksi</span><span class="pmw-arrow">›</span></a></li>
+        </ul>
+      </div>
+      <div class="pmw-widget">
+        <div class="pmw-title">Alat Scanner</div>
+        <ul class="pmw-list">
+          <li><a href="#" class="pmw-item"><i class="bi bi-grid-3x3 pmw-icon"></i><span class="pmw-label">Rekap 2D</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-grid pmw-icon"></i><span class="pmw-label">Rekap 4D</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-cpu pmw-icon"></i><span class="pmw-label">Smart Paito AI</span><span class="pmw-arrow">›</span></a></li>
+          <li><a href="#" class="pmw-item"><i class="bi bi-lightning-charge pmw-icon"></i><span class="pmw-label">BBFS & Tardal</span><span class="pmw-arrow">›</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer>WongBagus Prediction — Data diperbarui otomatis setiap hari via GitHub Actions</footer>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// 1. LOAD DATA dari result.json
+// ══════════════════════════════════════════════════════════
+const DATA_URL = 'data/result.json';
+let DB = null;          // raw JSON
+let currentOffset = 0;
+
+async function loadData() {
+  try {
+    const r = await fetch(DATA_URL + '?v=' + Date.now());
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    DB = await r.json();
+    onDataLoaded();
+  } catch(e) {
+    document.getElementById('updated-badge').textContent = '❌ Gagal muat data: ' + e.message;
+    document.getElementById('trek-output').textContent = 'Gagal memuat data/result.json\n' + e.message;
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// 2. SETELAH DATA LOADED
+// ══════════════════════════════════════════════════════════
+function onDataLoaded() {
+  const meta = DB.meta || {};
+  document.getElementById('updated-badge').textContent =
+    '✅ Update terakhir: ' + (meta.updated_at || '-') + ' | Sumber: ' + (meta.source || '-');
+
+  buildMarketSelect();
+  buildFormula();
+  buildHomeGrid();
+  buildSidebarPaito();
+  render();
+}
+
+// ── Market dropdown ────────────────────────────────────────
+function buildMarketSelect() {
+  const sel = document.getElementById('m-market');
+  sel.innerHTML = '';
+  for (const [id, pData] of Object.entries(DB.pasaran)) {
+    const info = pData.info || {};
+    const opt = document.createElement('option');
+    opt.value = id;
+    opt.textContent = (info.kode || id.toUpperCase()) + ' | ' + (info.nama || id);
+    sel.appendChild(opt);
+  }
+  // Default ke NCD jika ada
+  if (DB.pasaran['ncd']) sel.value = 'ncd';
+}
+
+// ── Home grid cards ────────────────────────────────────────
+function buildHomeGrid() {
+  const grid = document.getElementById('home-grid');
+  const today = new Date().toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short'});
+  let html = '';
+
+  for (const [id, pData] of Object.entries(DB.pasaran)) {
+    const info   = pData.info   || {};
+    const hasil  = pData.hasil  || [];
+    const last   = hasil[hasil.length - 1] || {};
+    const result = last.result  || '';
+    const digits = result ? result.padStart(4,'0').split('') : null;
+    const jadwal = pData.jadwal || '';
+
+    html += `<div class="hc">
+      <div class="hc-head">
+        <span style="font-size:16px;">${info.negara||'🌏'}</span>
+        <h3>${info.nama || id.toUpperCase()}</h3>
+        <span class="hc-live">${jadwal}</span>
+      </div>
+      <div class="hc-body">
+        <span class="hc-date">${today}</span>
+        <div class="hc-digits">
+          ${digits
+            ? digits.map(d=>`<div class="hc-d">${d}</div>`).join('')
+            : '<div class="hc-d nodata">—</div>'
+          }
+        </div>
+      </div>
+      <div class="hc-foot">
+        <button class="hc-btn hc-btn-w" onclick="jumpMarket('${id}')">SCANNER</button>
+      </div>
+    </div>`;
+  }
+  grid.innerHTML = html;
+}
+
+function jumpMarket(id) {
+  document.getElementById('m-market').value = id;
+  currentOffset = 0;
+  render();
+  document.querySelector('.scanner-box').scrollIntoView({behavior:'smooth'});
+}
+
+// ── Sidebar paito ──────────────────────────────────────────
+function buildSidebarPaito() {
+  const ul = document.getElementById('sidebar-paito');
+  let html = '';
+  for (const [id, pData] of Object.entries(DB.pasaran)) {
+    const info = pData.info || {};
+    html += `<li><a href="#" class="pmw-item" onclick="jumpMarket('${id}');return false;">
+      <span>${info.negara||'🌏'}</span>
+      <span class="pmw-label" style="font-size:11px;">${info.nama||id.toUpperCase()}</span>
+      <span class="pmw-arrow">›</span>
+    </a></li>`;
+  }
+  ul.innerHTML = html;
+}
+
+// ══════════════════════════════════════════════════════════
+// 3. FORMULA ENGINE
+// ══════════════════════════════════════════════════════════
+function getDigit(num4d, code) {
+  const n = String(num4d).padStart(4,'0');
+  const d = n.split('').map(Number);
+  const as  = (d[2]+d[3])%10;
+  const cop = (d[0]+d[1]+d[2]+d[3])%10;
+  const kep = d[2];
+  const eko = d[3];
+
+  const base = {
+    A1:d[3],A2:d[2],A3:d[1],A4:d[0],A5:as,A6:cop,A7:(d[0]+d[3])%10,A8:(d[1]+d[2])%10,A9:(d[0]+d[1])%10,
+    C1:cop,C2:(cop+1)%10,C3:(cop+2)%10,C4:(cop+3)%10,C5:(cop+4)%10,C6:(cop+5)%10,C7:(cop+6)%10,C8:(cop+7)%10,C9:(cop+8)%10,
+    K1:kep,K2:(kep+1)%10,K3:(kep+2)%10,K4:(kep+3)%10,K5:(kep+4)%10,K6:(kep+5)%10,K7:(kep+6)%10,K8:(kep+7)%10,K9:(kep+8)%10,
+    E1:eko,E2:(eko+1)%10,E3:(eko+2)%10,E4:(eko+3)%10,E5:(eko+4)%10,E6:(eko+5)%10,E7:(eko+6)%10,E8:(eko+7)%10,E9:(eko+8)%10,
+    J1:(d[0]+d[1]+d[2]+d[3])%10,J2:(d[0]+d[1]+d[2]+d[3]+1)%10,J3:(d[0]+d[1]+d[2]+d[3]+2)%10,
+    J4:(d[0]+d[1]+d[2]+d[3]+3)%10,J5:(d[0]+d[1]+d[2]+d[3]+4)%10,J6:(d[0]+d[1]+d[2]+d[3]+5)%10,
+    J7:(d[0]+d[1]+d[2]+d[3]+6)%10,J8:(d[0]+d[1]+d[2]+d[3]+7)%10,J9:(d[0]+d[1]+d[2]+d[3]+8)%10,
+  };
+
+  const mval={ml:9,mb:8,ix:5,ty:3,m0:0,m1:1,m3:3,m5:5,m7:7,m8:8,m9:9};
+  for(const[mk,mv] of Object.entries(mval)){
+    const bk=code.replace(new RegExp(mk+'$'),'');
+    if(code.endsWith(mk) && base.hasOwnProperty(bk)) return (base[bk]+mv)%10;
+  }
+  return base[code]??0;
+}
+
+function applyOp(a,b,op){return op==='+'?(a+b)%10:(a-b+10)%10;}
+
+function computeFormula(num4d,v1,op1,v2,op2,v3,mx,tipe){
+  let base=getDigit(num4d,v1);
+  if(v2!=='none') base=applyOp(base,getDigit(num4d,v2),op1);
+  if(v3!=='none') base=applyOp(base,getDigit(num4d,v3),op2);
+  const mval={ml:9,mb:8,ix:5,ty:3,m0:0,m1:1,m3:3,m5:5,m7:7,m8:8,m9:9};
+  if(mx!=='none'&&mval[mx]!==undefined) base=(base+mval[mx])%10;
+
+  let digits=[];
+  if(tipe==='ai'){const sp=[0,2,4,6,8];digits=sp.map(s=>(base+s)%10);}
+  else if(tipe==='as'){digits=[(base)%10,(base+1)%10,(base+2)%10,(base+3)%10,(base+4)%10];}
+  else if(tipe==='cop'){const c=getDigit(num4d,'C1');digits=[c,(c+2)%10,(c+4)%10,(c+6)%10,(c+8)%10];}
+  else if(tipe==='kepala'){const k=getDigit(num4d,'K1');digits=[k,(k+1)%10,(k+2)%10,(k+3)%10,(k+4)%10];}
+  else if(tipe==='ekor'){const e=getDigit(num4d,'E1');digits=[e,(e+1)%10,(e+2)%10,(e+3)%10,(e+4)%10];}
+
+  digits=[...new Set(digits)].sort((a,b)=>a-b);
+  while(digits.length<5){for(let x=0;x<10;x++){if(!digits.includes(x)){digits.push(x);break;}}digits.sort((a,b)=>a-b);}
+  return digits.slice(0,5);
+}
+
+// ── Build formula dropdowns ────────────────────────────────
+function buildFormula(){
+  const bases=['A','C','K','E','J'];
+  const mistiks=['','ml','ix','mb','ty','m0','m1','m3','m5','m7','m8','m9'];
+  function opts(off){
+    let h=off?'<option value="none">OFF</option>':'';
+    for(const b of bases)for(let n=1;n<=9;n++)for(const m of mistiks){
+      const v=`${b}${n}${m}`;h+=`<option value="${v}">${v.toUpperCase()}</option>`;
+    }
+    return h;
+  }
+  document.getElementById('m-v1').innerHTML=opts(false);
+  document.getElementById('m-v2').innerHTML=opts(true);
+  document.getElementById('m-v3').innerHTML=opts(true);
+  document.getElementById('m-v1').value='A1';
+}
+
+// ══════════════════════════════════════════════════════════
+// 4. RENDER SCANNER
+// ══════════════════════════════════════════════════════════
+function getWindowData(){
+  if(!DB) return [];
+  const market  = document.getElementById('m-market').value;
+  const hariVal = document.getElementById('m-layout').value;
+  const pData   = DB.pasaran[market] || {};
+  let hasil     = (pData.hasil||[]).map(h=>h.result).filter(Boolean);
+
+  if(hariVal!==''){
+    // Filter by day of week — perlu reconstruct index ke tanggal
+    // Karena kita tidak punya info tanggal, filter tidak bisa akurat
+    // Tampilkan semua saja jika tidak ada info tanggal
+  }
+  return hasil; // array of "4D" strings, oldest→newest
+}
+
+function render(){
+  if(!DB){document.getElementById('trek-output').textContent='Data belum termuat...';return;}
+
+  const data   = getWindowData();
+  const limit  = parseInt(document.getElementById('m-limit').value)||15;
+  const tipe   = document.getElementById('m-tipe').value;
+  const patah  = parseInt(document.getElementById('m-patah').value)||0;
+  const refMode= document.getElementById('m-ref').value;
+  const showRaw= document.getElementById('m-digit').checked;
+  const v1     = document.getElementById('m-v1').value;
+  const op1    = document.getElementById('m-op1').value;
+  const v2     = document.getElementById('m-v2').value;
+  const op2    = document.getElementById('m-op2').value;
+  const v3     = document.getElementById('m-v3').value;
+  const mx     = document.getElementById('m-mx').value;
+
+  if(data.length<2){
+    document.getElementById('trek-output').textContent='Data tidak cukup untuk market ini.';
+    return;
+  }
+
+  const total= data.length;
+  const end  = Math.max(1, total - 1 - currentOffset);
+  const start= Math.max(0, end - limit);
+  const win  = data.slice(start, end+1);
+
+  // Label
+  const v1t=v1.toUpperCase();
+  const v2t=v2!=='none'?` ${op1} ${v2.toUpperCase()}`:'';
+  const v3t=v3!=='none'?` ${op2} ${v3.toUpperCase()}`:'';
+  const mxt=mx!=='none'?` + mistik(${mx.toUpperCase()})`:'';
+  const label=`${v1t}${v2t}${v3t}${mxt}`;
+  document.getElementById('result-label').textContent=
+    `Rumus ${tipe.toUpperCase()} 5 Digit — ${label} (Patah: ${patah})`;
+
+  let hits=0,misses=0,patahCount=0;
+  let htmlLines=[`rumus ${tipe.toUpperCase()} 5 Digit (Patah Real: ${patah})\n${label}\n`];
+  let plainLines=[`rumus ${tipe.toUpperCase()} 5 Digit (Patah Real: ${patah})\n${label}\n`];
+
+  for(let i=0;i<win.length;i++){
+    const result=win[i];
+    const pred=computeFormula(result,v1,op1,v2,op2,v3,mx,tipe);
+
+    let statusHtml='pending',statusTxt='?';
+    let nextEko=-1;
+
+    if(i+1<win.length){
+      const next=win[i+1];
+      nextEko=parseInt(next.slice(-1));
+      const nextKep=parseInt(next.slice(-2,-1));
+      let hit=false;
+      if(tipe==='kepala') hit=pred.includes(nextKep);
+      else hit=pred.includes(nextEko);
+
+      if(!hit){patahCount++;if(patahCount>patah){statusHtml='miss';statusTxt='✗';misses++;}
+        else{statusHtml='hit';statusTxt='CT';hits++;}}
+      else{patahCount=0;statusHtml='hit';statusTxt='✓';hits++;}
+    }
+
+    // Highlight pred
+    let predHtml='';
+    for(const d of pred){
+      predHtml += (d===nextEko&&i+1<win.length)
+        ? `<span style="color:#10b981;font-weight:900;">${d}</span>` : d;
+    }
+
+    const ref=refMode==='show'?` [${result}]`:'';
+    const raw=showRaw?` (raw)` :'';
+    const stHtml=`<span style="color:${statusHtml==='hit'?'#10b981':statusHtml==='miss'?'#ef4444':'#6366f1'};font-weight:900;">${statusTxt}</span>`;
+
+    htmlLines.push(`${result}${ref}${raw} = ${predHtml} ${stHtml}`);
+    plainLines.push(`${result}${ref} = ${pred.join('')} ${statusTxt}`);
+  }
+
+  // Final AI prediction
+  if(win.length>0){
+    const lastResult=win[win.length-1];
+    const finalPred=computeFormula(lastResult,v1,op1,v2,op2,v3,mx,tipe);
+    const predStr=finalPred.join('');
+    htmlLines.push(`\n<strong style="color:#8B6914;font-size:14px;">AI : ${predStr}</strong>`);
+    plainLines.push(`\nAI : ${predStr}`);
+  }
+
+  document.getElementById('trek-output').innerHTML=htmlLines.join('\n');
+  document.getElementById('trek-output').dataset.plain=plainLines.join('\n');
+
+  // Summary
+  const tot=hits+misses;
+  if(tot>0){
+    const pct=Math.round(hits/tot*100);
+    const bar=document.getElementById('summary-bar');
+    bar.style.display='flex';
+    bar.innerHTML=`<span class="summ-item summ-total">Total: ${tot}</span>
+      <span class="summ-item summ-hit">✓ Hit: ${hits} (${pct}%)</span>
+      <span class="summ-item summ-miss">✗ Miss: ${misses}</span>`;
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// 5. EVENT LISTENERS
+// ══════════════════════════════════════════════════════════
+document.getElementById('btn-next').addEventListener('click',()=>{
+  currentOffset=Math.max(0,currentOffset-1); render();
+});
+document.getElementById('btn-prev').addEventListener('click',()=>{
+  const data=getWindowData();
+  const limit=parseInt(document.getElementById('m-limit').value)||15;
+  currentOffset=Math.min(Math.max(0,data.length-limit-2),currentOffset+1); render();
+});
+document.getElementById('btn-copy').addEventListener('click',()=>{
+  const el=document.getElementById('trek-output');
+  const txt=el.dataset.plain||el.innerText;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const btn=document.getElementById('btn-copy');
+    btn.innerHTML='✓ Copied!';
+    setTimeout(()=>{btn.innerHTML='<i class="bi bi-clipboard"></i> Copy';},1500);
+  });
+});
+
+['m-market','m-layout','m-limit','m-tipe','m-patah','m-ref','m-digit','m-v1','m-op1','m-v2','m-op2','m-v3','m-mx']
+  .forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.addEventListener('change',()=>{currentOffset=0;render();});
+  });
+
+// ══════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════
+loadData();
+</script>
+</body>
+</html>
