@@ -1,8 +1,8 @@
 {
   "meta": {
-    "updated_at": "2026-06-03 22:32:15",
+    "updated_at": "2026-06-03 22:56:36",
     "updated_date": "2026-06-03",
-    "source": "angkanet18.com",
+    "source": "rumusangkanet.com/paito-teks",
     "by": "WongBagus Prediction"
   },
   "pasaran": {
@@ -11,15 +11,11 @@
         "id": "ncd",
         "nama": "North Carolina Day",
         "kode": "NCD",
-        "negara": "🇺🇸"
+        "negara": "🇺🇸",
+        "slug": "north-carolina-day"
       },
       "jadwal": "13:30",
       "hasil": [],
-      "rekap": {
-        "2d": {},
-        "3d": {},
-        "4d": {}
-      },
       "last_result": {}
     },
     "ncn": {
@@ -27,15 +23,11 @@
         "id": "ncn",
         "nama": "North Carolina Night",
         "kode": "NCN",
-        "negara": "🇺🇸"
+        "negara": "🇺🇸",
+        "slug": "north-carolina-evening"
       },
       "jadwal": "23:00",
       "hasil": [],
-      "rekap": {
-        "2d": {},
-        "3d": {},
-        "4d": {}
-      },
       "last_result": {}
     },
     "sgp": {
@@ -43,15 +35,11 @@
         "id": "sgp",
         "nama": "Singapore",
         "kode": "SGP",
-        "negara": "🇸🇬"
+        "negara": "🇸🇬",
+        "slug": "singapore"
       },
       "jadwal": "17:45",
       "hasil": [],
-      "rekap": {
-        "2d": {},
-        "3d": {},
-        "4d": {}
-      },
       "last_result": {}
     },
     "hkg": {
@@ -59,15 +47,11 @@
         "id": "hkg",
         "nama": "Hongkong Pools",
         "kode": "HKG",
-        "negara": "🇭🇰"
+        "negara": "🇭🇰",
+        "slug": "hongkong-pools"
       },
       "jadwal": "23:00",
       "hasil": [],
-      "rekap": {
-        "2d": {},
-        "3d": {},
-        "4d": {}
-      },
       "last_result": {}
     },
     "syd": {
@@ -75,15 +59,11 @@
         "id": "syd",
         "nama": "Sydneypools",
         "kode": "SYD",
-        "negara": "🇦🇺"
+        "negara": "🇦🇺",
+        "slug": "sydney-pools"
       },
       "jadwal": "13:55",
       "hasil": [],
-      "rekap": {
-        "2d": {},
-        "3d": {},
-        "4d": {}
-      },
       "last_result": {}
     },
     "jpn": {
@@ -91,15 +71,11 @@
         "id": "jpn",
         "nama": "Japan",
         "kode": "JPN",
-        "negara": "🇯🇵"
+        "negara": "🇯🇵",
+        "slug": "japan"
       },
       "jadwal": "13:00",
       "hasil": [],
-      "rekap": {
-        "2d": {},
-        "3d": {},
-        "4d": {}
-      },
       "last_result": {}
     },
     "twn": {
@@ -107,15 +83,11 @@
         "id": "twn",
         "nama": "Taiwan",
         "kode": "TWN",
-        "negara": "🇹🇼"
+        "negara": "🇹🇼",
+        "slug": "taiwan"
       },
       "jadwal": "21:00",
       "hasil": [],
-      "rekap": {
-        "2d": {},
-        "3d": {},
-        "4d": {}
-      },
       "last_result": {}
     },
     "chn": {
@@ -123,15 +95,11 @@
         "id": "chn",
         "nama": "Chinapools",
         "kode": "CHN",
-        "negara": "🇨🇳"
+        "negara": "🇨🇳",
+        "slug": "chinapools"
       },
       "jadwal": "21:30",
       "hasil": [],
-      "rekap": {
-        "2d": {},
-        "3d": {},
-        "4d": {}
-      },
       "last_result": {}
     },
     "cmb2": {
@@ -139,15 +107,11 @@
         "id": "cmb2",
         "nama": "Magnum Cambodia",
         "kode": "CMB2",
-        "negara": "🇰🇭"
+        "negara": "🇰🇭",
+        "slug": "magnum-cambodia"
       },
       "jadwal": "18:30",
       "hasil": [],
-      "rekap": {
-        "2d": {},
-        "3d": {},
-        "4d": {}
-      },
       "last_result": {}
     },
     "be": {
@@ -155,15 +119,11 @@
         "id": "be",
         "nama": "Bullseye",
         "kode": "BE",
-        "negara": "🇳🇿"
+        "negara": "🇳🇿",
+        "slug": "bullseye"
       },
       "jadwal": "16:00",
       "hasil": [],
-      "rekap": {
-        "2d": {},
-        "3d": {},
-        "4d": {}
-      },
       "last_result": {}
     },
     "sp": {
@@ -171,15 +131,11 @@
         "id": "sp",
         "nama": "Sao Paulo",
         "kode": "SP",
-        "negara": "🇧🇷"
+        "negara": "🇧🇷",
+        "slug": "sao-paulo"
       },
       "jadwal": "03:00",
       "hasil": [],
-      "rekap": {
-        "2d": {},
-        "3d": {},
-        "4d": {}
-      },
       "last_result": {}
     },
     "wim": {
@@ -187,15 +143,11 @@
         "id": "wim",
         "nama": "Wisconsin Midday",
         "kode": "WIM",
-        "negara": "🇺🇸"
+        "negara": "🇺🇸",
+        "slug": "wisconsin-evening"
       },
       "jadwal": "13:30",
       "hasil": [],
-      "rekap": {
-        "2d": {},
-        "3d": {},
-        "4d": {}
-      },
       "last_result": {}
     },
     "macau": {
@@ -203,15 +155,11 @@
         "id": "macau",
         "nama": "Macau",
         "kode": "MAC",
-        "negara": "🇲🇴"
+        "negara": "🇲🇴",
+        "slug": "macau"
       },
       "jadwal": "21:05",
       "hasil": [],
-      "rekap": {
-        "2d": {},
-        "3d": {},
-        "4d": {}
-      },
       "last_result": {}
     },
     "bkk": {
@@ -219,15 +167,11 @@
         "id": "bkk",
         "nama": "Bangkok",
         "kode": "BKK",
-        "negara": "🇹🇭"
+        "negara": "🇹🇭",
+        "slug": "bangkok"
       },
       "jadwal": "21:00",
       "hasil": [],
-      "rekap": {
-        "2d": {},
-        "3d": {},
-        "4d": {}
-      },
       "last_result": {}
     },
     "kl": {
@@ -235,15 +179,11 @@
         "id": "kl",
         "nama": "Kuala Lumpur",
         "kode": "KL",
-        "negara": "🇲🇾"
+        "negara": "🇲🇾",
+        "slug": "johor"
       },
       "jadwal": "19:00",
       "hasil": [],
-      "rekap": {
-        "2d": {},
-        "3d": {},
-        "4d": {}
-      },
       "last_result": {}
     }
   }
