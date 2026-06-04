@@ -3,7 +3,7 @@
     "name": "Hongkong Pools",
     "flag": "🇭🇰",
     "slug": "hongkong-pools",
-    "updated": "2026-06-04 17:36:27",
+    "updated": "2026-06-04 22:09:50",
     "results": [
       {
         "date": "2026-06-04",
@@ -135,7 +135,7 @@
     "name": "Singapore",
     "flag": "🇸🇬",
     "slug": "singapore",
-    "updated": "2026-06-04 17:36:27",
+    "updated": "2026-06-04 22:09:50",
     "results": [
       {
         "date": "2026-06-04",
@@ -267,7 +267,7 @@
     "name": "Sydneypools",
     "flag": "🇦🇺",
     "slug": "sydney-pools",
-    "updated": "2026-06-04 17:36:27",
+    "updated": "2026-06-04 22:09:50",
     "results": [
       {
         "date": "2026-06-04",
@@ -399,7 +399,7 @@
     "name": "Japan",
     "flag": "🇯🇵",
     "slug": "japan",
-    "updated": "2026-06-04 17:36:27",
+    "updated": "2026-06-04 22:09:50",
     "results": [
       {
         "date": "2026-06-04",
@@ -531,7 +531,7 @@
     "name": "Taiwan",
     "flag": "🇹🇼",
     "slug": "taiwan",
-    "updated": "2026-06-04 17:36:27",
+    "updated": "2026-06-04 22:09:50",
     "results": [
       {
         "date": "2026-06-04",
@@ -663,8 +663,12 @@
     "name": "North Carolina Day",
     "flag": "🇺🇸",
     "slug": "north-carolina-day",
-    "updated": "2026-06-04 17:36:27",
+    "updated": "2026-06-04 22:09:50",
     "results": [
+      {
+        "date": "2026-06-05",
+        "result": "2094"
+      },
       {
         "date": "2026-06-04",
         "result": "2959"
@@ -791,7 +795,7 @@
     "name": "Magnum Cambodia",
     "flag": "🇰🇭",
     "slug": "magnum-cambodia",
-    "updated": "2026-06-04 17:36:27",
+    "updated": "2026-06-04 22:09:50",
     "results": [
       {
         "date": "2026-06-04",
@@ -923,7 +927,7 @@
     "name": "Bullseye",
     "flag": "🇳🇿",
     "slug": "bullseye",
-    "updated": "2026-06-04 17:36:27",
+    "updated": "2026-06-04 22:09:50",
     "results": [
       {
         "date": "2026-06-04",
@@ -1055,7 +1059,7 @@
     "name": "Chinapools",
     "flag": "🇨🇳",
     "slug": "chinapools",
-    "updated": "2026-06-04 17:36:27",
+    "updated": "2026-06-04 22:09:50",
     "results": [
       {
         "date": "2026-06-04",
@@ -1187,7 +1191,7 @@
     "name": "Sao Paulo",
     "flag": "🇧🇷",
     "slug": "sao-paulo",
-    "updated": "2026-06-04 17:36:27",
+    "updated": "2026-06-04 22:09:50",
     "results": [
       {
         "date": "2026-06-04",
