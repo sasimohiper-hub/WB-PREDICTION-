@@ -1,190 +1,72 @@
 {
-  "meta": {
-    "updated_at": "2026-06-03 23:40:46",
-    "updated_date": "2026-06-03",
-    "source": "rumusangkanet.com/paito-teks",
-    "by": "WongBagus Prediction"
+  "hkg": {
+    "name": "Hongkong Pools",
+    "flag": "🇭🇰",
+    "slug": "hongkong-pools",
+    "updated": "2026-06-04 03:40:36",
+    "results": []
   },
-  "pasaran": {
-    "ncd": {
-      "info": {
-        "id": "ncd",
-        "nama": "North Carolina Day",
-        "kode": "NCD",
-        "negara": "🇺🇸",
-        "slug": "north-carolina-day"
-      },
-      "jadwal": "13:30",
-      "hasil": [],
-      "last_result": {}
-    },
-    "ncn": {
-      "info": {
-        "id": "ncn",
-        "nama": "North Carolina Night",
-        "kode": "NCN",
-        "negara": "🇺🇸",
-        "slug": "north-carolina-evening"
-      },
-      "jadwal": "23:00",
-      "hasil": [],
-      "last_result": {}
-    },
-    "sgp": {
-      "info": {
-        "id": "sgp",
-        "nama": "Singapore",
-        "kode": "SGP",
-        "negara": "🇸🇬",
-        "slug": "singapore"
-      },
-      "jadwal": "17:45",
-      "hasil": [],
-      "last_result": {}
-    },
-    "hkg": {
-      "info": {
-        "id": "hkg",
-        "nama": "Hongkong Pools",
-        "kode": "HKG",
-        "negara": "🇭🇰",
-        "slug": "hongkong-pools"
-      },
-      "jadwal": "23:00",
-      "hasil": [],
-      "last_result": {}
-    },
-    "syd": {
-      "info": {
-        "id": "syd",
-        "nama": "Sydneypools",
-        "kode": "SYD",
-        "negara": "🇦🇺",
-        "slug": "sydney-pools"
-      },
-      "jadwal": "13:55",
-      "hasil": [],
-      "last_result": {}
-    },
-    "jpn": {
-      "info": {
-        "id": "jpn",
-        "nama": "Japan",
-        "kode": "JPN",
-        "negara": "🇯🇵",
-        "slug": "japan"
-      },
-      "jadwal": "13:00",
-      "hasil": [],
-      "last_result": {}
-    },
-    "twn": {
-      "info": {
-        "id": "twn",
-        "nama": "Taiwan",
-        "kode": "TWN",
-        "negara": "🇹🇼",
-        "slug": "taiwan"
-      },
-      "jadwal": "21:00",
-      "hasil": [],
-      "last_result": {}
-    },
-    "chn": {
-      "info": {
-        "id": "chn",
-        "nama": "Chinapools",
-        "kode": "CHN",
-        "negara": "🇨🇳",
-        "slug": "chinapools"
-      },
-      "jadwal": "21:30",
-      "hasil": [],
-      "last_result": {}
-    },
-    "cmb2": {
-      "info": {
-        "id": "cmb2",
-        "nama": "Magnum Cambodia",
-        "kode": "CMB2",
-        "negara": "🇰🇭",
-        "slug": "magnum-cambodia"
-      },
-      "jadwal": "18:30",
-      "hasil": [],
-      "last_result": {}
-    },
-    "be": {
-      "info": {
-        "id": "be",
-        "nama": "Bullseye",
-        "kode": "BE",
-        "negara": "🇳🇿",
-        "slug": "bullseye"
-      },
-      "jadwal": "16:00",
-      "hasil": [],
-      "last_result": {}
-    },
-    "sp": {
-      "info": {
-        "id": "sp",
-        "nama": "Sao Paulo",
-        "kode": "SP",
-        "negara": "🇧🇷",
-        "slug": "sao-paulo"
-      },
-      "jadwal": "03:00",
-      "hasil": [],
-      "last_result": {}
-    },
-    "wim": {
-      "info": {
-        "id": "wim",
-        "nama": "Wisconsin Midday",
-        "kode": "WIM",
-        "negara": "🇺🇸",
-        "slug": "wisconsin-evening"
-      },
-      "jadwal": "13:30",
-      "hasil": [],
-      "last_result": {}
-    },
-    "macau": {
-      "info": {
-        "id": "macau",
-        "nama": "Macau",
-        "kode": "MAC",
-        "negara": "🇲🇴",
-        "slug": "macau"
-      },
-      "jadwal": "21:05",
-      "hasil": [],
-      "last_result": {}
-    },
-    "bkk": {
-      "info": {
-        "id": "bkk",
-        "nama": "Bangkok",
-        "kode": "BKK",
-        "negara": "🇹🇭",
-        "slug": "bangkok"
-      },
-      "jadwal": "21:00",
-      "hasil": [],
-      "last_result": {}
-    },
-    "kl": {
-      "info": {
-        "id": "kl",
-        "nama": "Kuala Lumpur",
-        "kode": "KL",
-        "negara": "🇲🇾",
-        "slug": "johor"
-      },
-      "jadwal": "19:00",
-      "hasil": [],
-      "last_result": {}
-    }
+  "sgp": {
+    "name": "Singapore",
+    "flag": "🇸🇬",
+    "slug": "singapore",
+    "updated": "2026-06-04 03:40:36",
+    "results": []
+  },
+  "syd": {
+    "name": "Sydneypools",
+    "flag": "🇦🇺",
+    "slug": "sydney-pools",
+    "updated": "2026-06-04 03:40:36",
+    "results": []
+  },
+  "jpn": {
+    "name": "Japan",
+    "flag": "🇯🇵",
+    "slug": "japan",
+    "updated": "2026-06-04 03:40:36",
+    "results": []
+  },
+  "twn": {
+    "name": "Taiwan",
+    "flag": "🇹🇼",
+    "slug": "taiwan",
+    "updated": "2026-06-04 03:40:36",
+    "results": []
+  },
+  "ncd": {
+    "name": "North Carolina Day",
+    "flag": "🇺🇸",
+    "slug": "north-carolina-day",
+    "updated": "2026-06-04 03:40:36",
+    "results": []
+  },
+  "cmb2": {
+    "name": "Magnum Cambodia",
+    "flag": "🇰🇭",
+    "slug": "magnum-cambodia",
+    "updated": "2026-06-04 03:40:36",
+    "results": []
+  },
+  "be": {
+    "name": "Bullseye",
+    "flag": "🇳🇿",
+    "slug": "bullseye",
+    "updated": "2026-06-04 03:40:36",
+    "results": []
+  },
+  "chn": {
+    "name": "Chinapools",
+    "flag": "🇨🇳",
+    "slug": "chinapools",
+    "updated": "2026-06-04 03:40:36",
+    "results": []
+  },
+  "sp": {
+    "name": "Sao Paulo",
+    "flag": "🇧🇷",
+    "slug": "sao-paulo",
+    "updated": "2026-06-04 03:40:36",
+    "results": []
   }
 }
