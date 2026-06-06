@@ -298,6 +298,168 @@
     .market-name { font-size: 0.65rem; }
     .flag { font-size: 18px; }
   }
+
+  /* ── CARD DATA OVERLAY ── */
+  .market-card.has-data {
+    border-color: rgba(240,180,41,0.25);
+  }
+
+  .card-result {
+    font-family: 'Orbitron', monospace;
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    text-shadow: 0 0 10px rgba(240,180,41,0.4);
+  }
+
+  .card-result.no-data {
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-family: monospace;
+  }
+
+  .card-date {
+    font-size: 0.6rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    font-weight: 600;
+  }
+
+  .card-count {
+    font-size: 0.55rem;
+    color: var(--muted);
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    padding: 1px 6px;
+  }
+
+  /* ── PAITO PANEL ── */
+  .paito-panel {
+    background: var(--card);
+    border: 1.5px solid var(--gold);
+    border-radius: 14px;
+    margin: 0 12px 16px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 8px 40px rgba(240,180,41,0.15);
+    overflow: hidden;
+    animation: panelIn 0.2s ease;
+  }
+
+  @keyframes panelIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px;
+    background: linear-gradient(90deg, rgba(240,180,41,0.12), transparent);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .panel-flag { font-size: 20px; }
+
+  .panel-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--gold);
+    flex: 1;
+  }
+
+  .panel-count {
+    font-size: 0.65rem;
+    color: var(--muted);
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 2px 8px;
+  }
+
+  .panel-close {
+    background: rgba(239,68,68,0.15);
+    border: 1px solid rgba(239,68,68,0.3);
+    color: var(--red);
+    border-radius: 6px;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .panel-ext-link {
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.7rem;
+  }
+
+  .panel-ext-link a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .panel-ext-link a:hover { text-decoration: underline; }
+
+  .panel-table-wrap {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 8px 0;
+  }
+
+  .panel-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+  }
+
+  .panel-table thead tr {
+    background: rgba(240,180,41,0.08);
+    position: sticky;
+    top: 0;
+  }
+
+  .panel-table th {
+    padding: 6px 10px;
+    text-align: left;
+    color: var(--gold);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+  }
+
+  .panel-table td {
+    padding: 5px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .panel-table .row-latest td {
+    background: rgba(240,180,41,0.07);
+  }
+
+  .td-no   { color: var(--muted); font-size: 0.6rem; width: 32px; }
+  .td-date { color: var(--accent); font-size: 0.68rem; }
+  .td-result {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    font-size: 0.85rem;
+  }
+  .td-2d { color: var(--green); font-weight: 700; }
+
+  .panel-empty {
+    padding: 30px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
 </style>
 </head>
 <body>
@@ -529,23 +691,162 @@ const ALL_MARKETS = [
 // =============================================
 // RENDER CARD
 // =============================================
+// =============================================
+// PAITO DATA — baca dari paito-data.json
+// =============================================
+let PAITO_DB = {};
+const PAITO_JSON_URLS = [
+  './paito-data.json',
+  'https://alifavif-cmd.github.io/-WONGBAGUS-PREDICTION-/paito-data.json',
+  'https://raw.githubusercontent.com/alifavif-cmd/-WONGBAGUS-PREDICTION-/main/paito-data.json',
+];
+
+async function loadPaitoData() {
+  for (const url of PAITO_JSON_URLS) {
+    try {
+      const r = await fetch(url, { cache: 'no-cache' });
+      if (!r.ok) continue;
+      PAITO_DB = await r.json();
+      console.log('[PaitoData] loaded', Object.keys(PAITO_DB).length, 'entries from', url);
+      // Re-render semua card dengan data terbaru
+      renderAll();
+      return;
+    } catch(e) { continue; }
+  }
+  console.warn('[PaitoData] gagal load, tampil tanpa data tanggal');
+}
+
+// Hitung tanggal dari start_date + index (lama→baru)
+// Dengan skip hari libur (skip_weekdays dari paito-data.json)
+// result[0] = start_date, result[N-1] = result terbaru
+function getDateForIdx(entry, idx) {
+  if (!entry || !entry.start_date) return null;
+  try {
+    const skip = new Set(entry.skip_weekdays || []);
+    const cur = new Date(entry.start_date + 'T00:00:00');
+    if (skip.size === 0) {
+      // Pasaran harian — langsung +idx hari
+      cur.setDate(cur.getDate() + idx);
+      return cur;
+    }
+    // Pasaran dengan libur — maju hari per hari, skip hari libur
+    let counted = 0;
+    let maxScan = idx * 3 + 30; // batas aman agar tidak infinite
+    let scanned = 0;
+    while (counted < idx && scanned < maxScan) {
+      cur.setDate(cur.getDate() + 1);
+      scanned++;
+      // getDay(): 0=Min,1=Sen,...,6=Sab → konversi ke Python weekday (0=Sen..6=Min)
+      const jsDay = cur.getDay(); // 0=Min
+      const pyDay = jsDay === 0 ? 6 : jsDay - 1; // 0=Sen..6=Min
+      if (!skip.has(pyDay)) counted++;
+    }
+    return cur;
+  } catch(e) { return null; }
+}
+
+function formatDate(d) {
+  if (!d) return '';
+  const dd = String(d.getDate()).padStart(2,'0');
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const yy = String(d.getFullYear()).slice(-2);
+  const days = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+  return `${days[d.getDay()]} ${dd}/${mm}/${yy}`;
+}
+
 function makeUrl(slug) {
   return `https://rumusangkanet.com/paito-teks-${slug}/`;
 }
 
 function makeCard(m) {
+  const entry = PAITO_DB[m.slug];
+  const results = entry ? entry.results : [];
+  const lastResult = results.length ? results[results.length - 1] : null;
+  const lastDate = entry ? getDateForIdx(entry, results.length - 1) : null;
+  const count = results.length;
+
   const a = document.createElement('a');
-  a.className = 'market-card';
-  a.href = makeUrl(m.slug);
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
+  a.className = 'market-card' + (lastResult ? ' has-data' : '');
+  a.href = '#';
   a.dataset.name = m.name.toLowerCase();
+  a.dataset.slug = m.slug;
   a.innerHTML = `
     <span class="flag">${m.flag}</span>
     <span class="market-name">${m.name}</span>
+    ${lastResult
+      ? `<span class="card-result">${lastResult}</span>
+         <span class="card-date">${formatDate(lastDate)}</span>
+         <span class="card-count">${count} data</span>`
+      : `<span class="card-result no-data">----</span>
+         <span class="card-date">Belum ada data</span>`
+    }
     <span class="market-arrow">▶</span>
   `;
+
+  // Klik → buka panel inline paito
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    openPaitoPanel(m, entry);
+  });
   return a;
+}
+
+// =============================================
+// PANEL PAITO INLINE
+// =============================================
+function openPaitoPanel(m, entry) {
+  // Hapus panel lama jika ada
+  const old = document.getElementById('paitoPanel');
+  if (old) old.remove();
+
+  const results = entry ? entry.results : [];
+  const panel = document.createElement('div');
+  panel.id = 'paitoPanel';
+  panel.className = 'paito-panel';
+
+  // Build table rows — tampil terbaru di atas
+  let rows = '';
+  const reversed = [...results].reverse();
+  reversed.forEach((res, i) => {
+    const realIdx = results.length - 1 - i; // index dari lama→baru
+    const d = entry ? getDateForIdx(entry, realIdx) : null;
+    const dayName = d ? ['Min','Sen','Sel','Rab','Kam','Jum','Sab'][d.getDay()] : '';
+    const dateStr = d ? `${dayName} ${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}` : '-';
+    rows += `<tr${i===0?' class="row-latest"':''}>
+      <td class="td-no">${results.length - i}</td>
+      <td class="td-date">${dateStr}</td>
+      <td class="td-result">${res}</td>
+      <td class="td-2d">${res.slice(-2)}</td>
+    </tr>`;
+  });
+
+  panel.innerHTML = `
+    <div class="panel-header">
+      <span class="panel-flag">${m.flag}</span>
+      <span class="panel-title">${m.name}</span>
+      <span class="panel-count">${results.length} data</span>
+      <button class="panel-close" onclick="document.getElementById('paitoPanel').remove()">✕</button>
+    </div>
+    <div class="panel-ext-link">
+      <a href="https://rumusangkanet.com/paito-teks-${m.slug}/" target="_blank" rel="noopener">
+        🔗 Lihat di rumusangkanet.com
+      </a>
+    </div>
+    ${results.length === 0
+      ? '<div class="panel-empty">Belum ada data tersimpan</div>'
+      : `<div class="panel-table-wrap">
+          <table class="panel-table">
+            <thead><tr>
+              <th>#</th><th>Tanggal</th><th>Result</th><th>2D</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>`
+    }
+  `;
+
+  document.getElementById('mainContainer').prepend(panel);
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 const featGrid = document.getElementById('featGrid');
@@ -554,13 +855,20 @@ const featCount = document.getElementById('featCount');
 const allCount  = document.getElementById('allCount');
 const totalCount = document.getElementById('totalCount');
 
-FEATURED.forEach(m => featGrid.appendChild(makeCard(m)));
-ALL_MARKETS.forEach(m => allGrid.appendChild(makeCard(m)));
+function renderAll() {
+  featGrid.innerHTML = '';
+  allGrid.innerHTML  = '';
+  FEATURED.forEach(m => featGrid.appendChild(makeCard(m)));
+  ALL_MARKETS.forEach(m => allGrid.appendChild(makeCard(m)));
+  const total = FEATURED.length + ALL_MARKETS.length;
+  featCount.textContent  = FEATURED.length;
+  allCount.textContent   = ALL_MARKETS.length;
+  totalCount.textContent = total;
+}
 
-const total = FEATURED.length + ALL_MARKETS.length;
-featCount.textContent = FEATURED.length;
-allCount.textContent  = ALL_MARKETS.length;
-totalCount.textContent = total;
+// Render awal (tanpa data), lalu load data → re-render
+renderAll();
+loadPaitoData();
 
 // =============================================
 // SEARCH

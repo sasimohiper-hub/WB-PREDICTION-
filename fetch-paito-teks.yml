@@ -1,0 +1,40 @@
+name: Fetch Paito Teks
+
+on:
+  schedule:
+    # Tiap 2 jam (paito teks tidak update secepat result harian)
+    - cron: '0 */2 * * *'
+  workflow_dispatch:  # bisa dijalankan manual dari GitHub
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          # Fetch semua history agar merge aman
+          fetch-depth: 1
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4 urllib3
+
+      - name: Run fetch_paito_teks.py
+        run: python fetch_paito_teks.py
+
+      - name: Commit & push paito-data.json
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add paito-data.json
+          # Hanya commit kalau ada perubahan
+          git diff --staged --quiet || git commit -m "chore: update paito-data.json [$(date +'%Y-%m-%d %H:%M')] [skip ci]"
+          git push
